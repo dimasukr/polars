@@ -188,6 +188,9 @@ features = [
   "compute_take",
 ]
 
+[target.'cfg(target_family = "wasm")'.dependencies.getrandom]
+features = ["js"]
+
 [dev-dependencies]
 bincode = "1"
 

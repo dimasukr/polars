@@ -409,7 +409,9 @@ impl<'a> CoreReader<'a> {
 
         // If the number of threads given by the user is lower than our global thread pool we create
         // new one.
+        #[cfg(not(target_family = "wasm"))]
         let owned_pool;
+        #[cfg(not(target_family = "wasm"))]
         let pool = if POOL.current_num_threads() != n_threads {
             owned_pool = Some(
                 ThreadPoolBuilder::new()
@@ -421,6 +423,8 @@ impl<'a> CoreReader<'a> {
         } else {
             &POOL
         };
+        #[cfg(target_family = "wasm")]
+        let pool = &POOL;
 
         // all the buffers returned from the threads
         // Structure:

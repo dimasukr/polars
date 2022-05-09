@@ -44,6 +44,7 @@ lazy_static! {
 }
 
 // this is re-exported in utils for polars child crates
+#[cfg(not(target_family = "wasm"))]
 lazy_static! {
     pub static ref POOL: ThreadPool = ThreadPoolBuilder::new()
         .num_threads(
@@ -55,6 +56,11 @@ lazy_static! {
         )
         .build()
         .expect("could not spawn threads");
+}
+
+#[cfg(target_family = "wasm")]
+lazy_static! {
+    pub static ref POOL: polars_utils::wasm::Pool = polars_utils::wasm::Pool;
 }
 
 #[cfg(feature = "dtype-categorical")]

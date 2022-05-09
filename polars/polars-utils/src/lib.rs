@@ -5,6 +5,9 @@ mod functions;
 pub mod mem;
 pub mod sort;
 
+#[cfg(target_family = "wasm")]
+pub mod wasm;
+
 pub use functions::*;
 
 #[cfg(not(feature = "bigidx"))]
